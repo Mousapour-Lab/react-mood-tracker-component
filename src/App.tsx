@@ -111,6 +111,10 @@ const T: Record<string, Record<string, string>> = {
     expand: 'بیشتر',
     collapse: 'کمتر',
     printSession: 'چاپ جلسه',
+    printBeliefs: 'چاپ سود و زیان',
+    printQuarantine: 'چاپ قرنطینه',
+    expStatus: 'وضعیت',
+    expSolution: 'راه‌حل',
     darkMode: 'تاریک',
     lightMode: 'روشن',
     reportTitle: 'گزارش NAT Tracker',
@@ -244,6 +248,10 @@ const T: Record<string, Record<string, string>> = {
     expand: 'More',
     collapse: 'Less',
     printSession: 'Print Session',
+    printBeliefs: 'Print Cost-Benefit',
+    printQuarantine: 'Print Quarantine',
+    expStatus: 'Status',
+    expSolution: 'Solution',
     darkMode: 'Dark',
     lightMode: 'Light',
     reportTitle: 'NAT Tracker Report',
@@ -377,6 +385,10 @@ const T: Record<string, Record<string, string>> = {
     expand: 'المزيد',
     collapse: 'أقل',
     printSession: 'طباعة الجلسة',
+    printBeliefs: 'طباعة التكلفة والفائدة',
+    printQuarantine: 'طباعة الحجر',
+    expStatus: 'الحالة',
+    expSolution: 'الحل',
     darkMode: 'داكن',
     lightMode: 'فاتح',
     reportTitle: 'تقرير NAT Tracker',
@@ -1631,7 +1643,7 @@ const AddLogModal = ({ onSave, onClose, isDark, initialData, showToast, lang, is
   );
 };
 
-const PdfTable = ({ logs, sessionNotes, includeNotesExport, lang, isRTL }: any) => {
+const PdfTable = ({ logs, sessionNotes, beliefs, quarantine, includeNotesExport, includeBeliefsExport, includeQuarantineExport, lang, isRTL }: any) => {
   const t = T[lang];
   const font = isRTL ? 'Vazirmatn,serif' : 'Inter,serif';
   return (
@@ -1686,6 +1698,63 @@ const PdfTable = ({ logs, sessionNotes, includeNotesExport, lang, isRTL }: any) 
           </table>
         </div>
       )}
+
+      {includeBeliefsExport&&beliefs&&beliefs.length>0&&(
+        <div style={{marginBottom:32}}>
+          <h2 style={{fontSize:18,fontWeight:900,marginBottom:16,borderBottom:'2px solid #e2e8f0',paddingBottom:8}}>{t.costBenefit}</h2>
+          <table style={{width:'100%',borderCollapse:'collapse',fontSize:12,textAlign:isRTL?'right':'left'}}>
+            <thead><tr style={{background:'#f8fafc'}}>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'12%'}}>{t.date}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'20%'}}>{t.behaviorLabel}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'22%'}}>{t.benefits}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'22%'}}>{t.costs}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'24%'}}>{t.conclusion}</th>
+            </tr></thead>
+            <tbody>
+              {beliefs.map((b: any)=>(<tr key={b.id}>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top'}}>{b.date}</td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top',lineHeight:1.7,fontWeight:700}}>{b.behavior}</td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top'}}>
+                  <ul style={{paddingRight:isRTL?16:0,paddingLeft:isRTL?0:16,margin:0}}>
+                    {(b.benefits||[]).map((x: string,i: number)=>(<li key={i} style={{marginBottom:4}}>{x}</li>))}
+                  </ul>
+                </td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top'}}>
+                  <ul style={{paddingRight:isRTL?16:0,paddingLeft:isRTL?0:16,margin:0}}>
+                    {(b.costs||[]).map((x: string,i: number)=>(<li key={i} style={{marginBottom:4}}>{x}</li>))}
+                  </ul>
+                </td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top',lineHeight:1.7}}>
+                  <div style={{marginBottom:4,fontWeight:700,color:'#6366f1'}}>{t.worthLabel}: {numFmt(b.worthIt,lang)}%</div>
+                  {b.conclusion||'—'}
+                </td>
+              </tr>))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {includeQuarantineExport&&quarantine&&quarantine.length>0&&(
+        <div style={{marginBottom:32}}>
+          <h2 style={{fontSize:18,fontWeight:900,marginBottom:16,borderBottom:'2px solid #e2e8f0',paddingBottom:8}}>{t.quarantineBox}</h2>
+          <table style={{width:'100%',borderCollapse:'collapse',fontSize:12,textAlign:isRTL?'right':'left'}}>
+            <thead><tr style={{background:'#f8fafc'}}>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'13%'}}>{t.date}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'37%'}}>{t.intrusive}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'15%',textAlign:'center'}}>{t.expStatus}</th>
+              <th style={{border:'1px solid #e2e8f0',padding:'10px 12px',fontWeight:800,width:'35%'}}>{t.expSolution}</th>
+            </tr></thead>
+            <tbody>
+              {quarantine.map((q: any)=>(<tr key={q.id}>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top'}}>{q.date||'—'}</td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top',lineHeight:1.7}}>{q.thought}</td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top',textAlign:'center',fontWeight:700,color:q.resolved?'#16a34a':'#ea580c'}}>{q.resolved?t.resolved:t.inQuarantine}</td>
+                <td style={{border:'1px solid #e2e8f0',padding:'10px 12px',verticalAlign:'top',lineHeight:1.7}}>{q.resolved?(q.resolution||'—'):'—'}</td>
+              </tr>))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
@@ -1701,6 +1770,8 @@ const DashboardView = ({
   onEditBelief, onDeleteBelief,
   onOpenQuarantine,
   includeNotesExport, setIncludeNotesExport,
+  includeBeliefsExport, setIncludeBeliefsExport,
+  includeQuarantineExport, setIncludeQuarantineExport,
   lang, setLang, isRTL
 }: any) => {
   const t = T[lang];
@@ -1743,6 +1814,16 @@ const DashboardView = ({
             background:isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)',padding:'6px 10px',borderRadius:8,border:`1px solid ${bd}`}}>
             <input type="checkbox" checked={includeNotesExport} onChange={(e: any)=>setIncludeNotesExport(e.target.checked)} style={{cursor:'pointer'}}/>
             {t.printSession}
+          </label>
+          <label className="print-label" style={{display:'flex',alignItems:'center',gap:6,color:tx,fontSize:11,fontWeight:700,cursor:'pointer',
+            background:isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)',padding:'6px 10px',borderRadius:8,border:`1px solid ${bd}`}}>
+            <input type="checkbox" checked={includeBeliefsExport} onChange={(e: any)=>setIncludeBeliefsExport(e.target.checked)} style={{cursor:'pointer'}}/>
+            {t.printBeliefs}
+          </label>
+          <label className="print-label" style={{display:'flex',alignItems:'center',gap:6,color:tx,fontSize:11,fontWeight:700,cursor:'pointer',
+            background:isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)',padding:'6px 10px',borderRadius:8,border:`1px solid ${bd}`}}>
+            <input type="checkbox" checked={includeQuarantineExport} onChange={(e: any)=>setIncludeQuarantineExport(e.target.checked)} style={{cursor:'pointer'}}/>
+            {t.printQuarantine}
           </label>
           <button onClick={onPrint} title="Print" style={{display:'flex',alignItems:'center',justifyContent:'center',background:'none',border:`1px solid ${bd}`,borderRadius:10,padding:'8px',color:'#6366f1',cursor:'pointer',transition:'all 0.2s ease'}} onMouseEnter={e=>{e.currentTarget.style.background='rgba(99,102,241,0.1)';}} onMouseLeave={e=>{e.currentTarget.style.background='none';}}><Printer size={17}/></button>
           <button onClick={onExportWord} title="Word" style={{display:'flex',alignItems:'center',justifyContent:'center',background:'none',border:`1px solid ${bd}`,borderRadius:10,padding:'8px',color:'#6366f1',cursor:'pointer',transition:'all 0.2s ease'}} onMouseEnter={e=>{e.currentTarget.style.background='rgba(99,102,241,0.1)';}} onMouseLeave={e=>{e.currentTarget.style.background='none';}}><FileText size={17}/></button>
@@ -2000,6 +2081,8 @@ export default function App() {
   const [showSave, setShowSave] = useState(false);
   const [toast, setToast]       = useState('');
   const [includeNotesExport, setIncludeNotesExport] = useState(true);
+  const [includeBeliefsExport, setIncludeBeliefsExport] = useState(true);
+  const [includeQuarantineExport, setIncludeQuarantineExport] = useState(true);
   const toastTimer = useRef<any>(null);
 
   const [logs, setLogs] = useState<any[]>(()=>{
@@ -2145,7 +2228,9 @@ export default function App() {
     <div dir={isRTL?'rtl':'ltr'} style={{fontFamily:font,minHeight:'100vh',background:isDark?'#09090b':'#f8fafc',color:isDark?'#f4f4f5':'#1e293b',position:'relative'}}>
       <style dangerouslySetInnerHTML={{__html: globalCSS}}/>
 
-      <PdfTable logs={sortedLogs} sessionNotes={sortedNotes} includeNotesExport={includeNotesExport} lang={lang} isRTL={isRTL}/>
+      <PdfTable logs={sortedLogs} sessionNotes={sortedNotes} beliefs={sortedBeliefs} quarantine={sortedQuarantine}
+        includeNotesExport={includeNotesExport} includeBeliefsExport={includeBeliefsExport} includeQuarantineExport={includeQuarantineExport}
+        lang={lang} isRTL={isRTL}/>
       <SaveAnimation show={showSave}/>
       <Toast msg={toast}/>
 
@@ -2160,6 +2245,8 @@ export default function App() {
         onOpenQuarantine={()=>openModal('quarantine')}
         showToast={showToast}
         includeNotesExport={includeNotesExport} setIncludeNotesExport={setIncludeNotesExport}
+        includeBeliefsExport={includeBeliefsExport} setIncludeBeliefsExport={setIncludeBeliefsExport}
+        includeQuarantineExport={includeQuarantineExport} setIncludeQuarantineExport={setIncludeQuarantineExport}
         lang={lang} setLang={setLang} isRTL={isRTL}
       />
 
