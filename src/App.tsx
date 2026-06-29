@@ -578,6 +578,24 @@ const numFmt = (n: number, lang: Lang) => lang === 'fa' ? toPersianNum(n) : Stri
 const globalCSS = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
 
+  /* --- Global resets & mobile safety --- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; width: 100%; max-width: 100%; overflow-x: hidden; }
+  #root { width: 100%; max-width: 100%; overflow-x: hidden; }
+  img, svg, video { max-width: 100%; height: auto; }
+
+  /* --- Responsive: phones --- */
+  @media (max-width: 640px) {
+    .dash-header { flex-wrap: wrap; gap: 10px; padding: 12px 14px !important; }
+    .dash-header h1 { font-size: 15px !important; }
+    .dash-actions { flex-wrap: wrap; width: 100%; }
+    .dash-content { padding: 14px !important; }
+    .stat-grid { gap: 10px !important; }
+  }
+  @media (max-width: 380px) {
+    .dash-actions .print-label { display: none !important; }
+  }
+
   @keyframes pulse-ring {
     0% { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.8); opacity: 0; }
@@ -871,7 +889,7 @@ const FABMenu = ({ onAddLog, onAddNote, onAddBelief, onAddQuarantine, lang, isRT
   return (
     <div style={{position:'fixed',bottom:80,left: isRTL ? 20 : 'auto', right: isRTL ? 'auto' : 20, zIndex:100}}>
       {open && (
-        <div style={{position:'absolute',bottom:68,left:0,display:'flex',flexDirection:'column',gap:10,alignItems:'flex-start'}}>
+        <div style={{position:'absolute',bottom:68,left: isRTL ? 0 : 'auto',right: isRTL ? 'auto' : 0,display:'flex',flexDirection:'column',gap:10,alignItems: isRTL ? 'flex-start' : 'flex-end'}}>
           {items.map((item,i)=>(
             <button key={i} onClick={()=>{setOpen(false);item.action();}} className="fab-btn"
               style={{
@@ -1705,7 +1723,7 @@ const DashboardView = ({
   return (
     <div style={{minHeight:'100vh',paddingBottom:100,background:bg,transition:'background .3s',fontFamily:font}}>
       {/* Header with gradient */}
-      <div style={{
+      <div className="dash-header" style={{
         position:'sticky',top:0,zIndex:10,
         background:isDark
           ? 'linear-gradient(135deg,rgba(9,9,11,0.95),rgba(15,10,30,0.95))'
@@ -1713,15 +1731,15 @@ const DashboardView = ({
         backdropFilter:'blur(20px)',
         borderBottom:`1px solid ${isDark?'rgba(99,102,241,0.2)':bd}`,
         padding:'14px 20px',
-        display:'flex',alignItems:'center',justifyContent:'space-between',
+        display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:10,
         boxShadow:isDark?'0 4px 24px rgba(99,102,241,0.1)':'0 4px 24px rgba(0,0,0,0.06)'
       }}>
         
         {/* ACTION BUTTONS & LANGUAGE SWITCHER */}
-        <div style={{display:'flex',gap:6,alignItems:'center'}}>
+        <div className="dash-actions" style={{display:'flex',gap:6,alignItems:'center',flexWrap:'wrap'}}>
           <LanguageSwitcher lang={lang} setLang={setLang} isDark={isDark} />
 
-          <label style={{display:'flex',alignItems:'center',gap:6,color:tx,fontSize:11,fontWeight:700,cursor:'pointer',
+          <label className="print-label" style={{display:'flex',alignItems:'center',gap:6,color:tx,fontSize:11,fontWeight:700,cursor:'pointer',
             background:isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)',padding:'6px 10px',borderRadius:8,border:`1px solid ${bd}`}}>
             <input type="checkbox" checked={includeNotesExport} onChange={(e: any)=>setIncludeNotesExport(e.target.checked)} style={{cursor:'pointer'}}/>
             {t.printSession}
@@ -1744,8 +1762,8 @@ const DashboardView = ({
         </h1>
       </div>
 
-      <div style={{padding:'20px',maxWidth:900,margin:'0 auto'}}>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,marginBottom:20}}>
+      <div className="dash-content" style={{padding:'20px',maxWidth:900,margin:'0 auto',width:'100%'}}>
+        <div className="stat-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,marginBottom:20}}>
           <div className="stat-card" style={{
             background: isDark
               ? 'linear-gradient(135deg,rgba(99,102,241,0.15),rgba(139,92,246,0.15))'
@@ -2008,6 +2026,20 @@ export default function App() {
   useEffect(()=>{ localStorage.setItem('nat_tracker_beliefs',JSON.stringify(beliefs)); }, [beliefs]);
   useEffect(()=>{ localStorage.setItem('nat_tracker_quarantine',JSON.stringify(quarantine)); }, [quarantine]);
   useEffect(()=>{ localStorage.setItem('nat_lang', lang); }, [lang]);
+
+  // Ensure correct mobile scaling + prevent horizontal scroll (runs once)
+  useEffect(()=>{
+    let meta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'viewport';
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content','width=device-width, initial-scale=1, viewport-fit=cover');
+    document.documentElement.style.overflowX = 'hidden';
+    document.body.style.overflowX = 'hidden';
+    document.body.style.margin = '0';
+  }, []);
 
   // Update document direction
   useEffect(()=>{
