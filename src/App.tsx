@@ -7,8 +7,6 @@ import {
   Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Globe
 } from 'lucide-react';
 
-// ─────────────────────────── TRANSLATIONS ───────────────────────────
-
 type Lang = 'fa' | 'en' | 'ar';
 
 const T: Record<string, Record<string, string>> = {
@@ -413,8 +411,6 @@ const T: Record<string, Record<string, string>> = {
   }
 };
 
-// ─────────────────────────── CONSTANTS ───────────────────────────
-
 const EMOTION_COLORS: Record<string, any> = {
   'اضطراب':     { hex: '#f59e0b', bgL: '#fef3c7', bgD: 'rgba(245,158,11,0.15)', txL: '#92400e', txD: '#fbbf24', bdL: '#fcd34d', bdD: 'rgba(245,158,11,0.35)' },
   'غم':         { hex: '#3b82f6', bgL: '#dbeafe', bgD: 'rgba(59,130,246,0.15)',  txL: '#1e40af', txD: '#60a5fa', bdL: '#93c5fd', bdD: 'rgba(59,130,246,0.35)' },
@@ -453,9 +449,9 @@ const EMOTION_COLORS: Record<string, any> = {
   'فرح':        { hex: '#22c55e', bgL: '#dcfce7', bgD: 'rgba(34,197,94,0.15)',   txL: '#15803d', txD: '#4ade80', bdL: '#86efac', bdD: 'rgba(34,197,94,0.35)'  },
   'يأس':        { hex: '#6b7280', bgL: '#f3f4f6', bgD: 'rgba(107,114,128,0.15)',txL: '#374151', txD: '#9ca3af', bdL: '#d1d5db', bdD: 'rgba(107,114,128,0.35)' },
   'خجل':        { hex: '#4c1d95', bgL: '#f5f3ff', bgD: 'rgba(76,29,149,0.15)',  txL: '#5b21b6', txD: '#c4b5fd', bdL: '#ddd6fe', bdD: 'rgba(76,29,149,0.35)' },
-  'غيرة':       { hex: '#84cc16', bgL: '#f7fee7', bgD: 'rgba(132,204,22,0.15)',  txL: '#3f6212', txD: '#a3e635', bdL: '#bef264', bdD: 'rgba(132,204,22,0.35)' },
+  'غيرة':        { hex: '#84cc16', bgL: '#f7fee7', bgD: 'rgba(132,204,22,0.15)',  txL: '#3f6212', txD: '#a3e635', bdL: '#bef264', bdD: 'rgba(132,204,22,0.35)' },
   'شوق':        { hex: '#a78bfa', bgL: '#ede9fe', bgD: 'rgba(167,139,250,0.15)', txL: '#5b21b6', txD: '#c4b5fd', bdL: '#ddd6fe', bdD: 'rgba(167,139,250,0.35)'},
-  'وحدة':       { hex: '#6366f1', bgL: '#e0e7ff', bgD: 'rgba(99,102,241,0.15)',  txL: '#3730a3', txD: '#818cf8', bdL: '#a5b4fc', bdD: 'rgba(99,102,241,0.35)' },
+  'وحدة':        { hex: '#6366f1', bgL: '#e0e7ff', bgD: 'rgba(99,102,241,0.15)',  txL: '#3730a3', txD: '#818cf8', bdL: '#a5b4fc', bdD: 'rgba(99,102,241,0.35)' },
   'انعدام الأمان': { hex: '#f97316', bgL: '#ffedd5', bgD: 'rgba(249,115,22,0.15)', txL: '#9a3412', txD: '#fb923c', bdL: '#fdba74', bdD: 'rgba(249,115,22,0.35)' },
 };
 
@@ -467,61 +463,61 @@ const DEFAULT_EMOTIONS: Record<string, string[]> = {
 
 const COGNITIVE_ERRORS: Record<string, {id:number,name:string,desc:string,ex:string}[]> = {
   fa: [
-    { id:1,  name:'ذهن خوانی',                   desc:'فرض می‌گذارید که می‌دانید آدم‌ها چه فکر می‌کنند، بی‌آنکه شواهد کافی در مورد افکارشان داشته باشید.',  ex:'او فکر می‌کند من یک بازنده‌ام.' },
-    { id:2,  name:'پیش گویی',                     desc:'آینده را پیش بینی می‌کنید. پیش بینی می‌کنید که اوضاع بدتر خواهد شد یا خطری در پیش است.',           ex:'در امتحان قبول نخواهم شد.' },
-    { id:3,  name:'فاجعه سازی',                   desc:'بر این باورید که آنچه اتفاق افتاده آنچنان دردناک و غیرقابل تحمل خواهد بود که شما نمی‌توانید آن را تحمل کنید.',  ex:'اگر در امتحان رد شوم، وحشتناک است.' },
-    { id:4,  name:'برچسب زدن',                    desc:'یک ویژگی منفی خیلی کلی را به خود و دیگران نسبت می‌دهید.',                                              ex:'من دوست داشتنی نیستم.' },
-    { id:5,  name:'دست کم گرفتن جنبه‌های مثبت',  desc:'مدعی هستید که دستاوردهای مثبت شما یا دیگران ناچیز و جزئی هستند.',                                    ex:'این وظیفه زن خانه است.' },
-    { id:6,  name:'فیلتر منفی',                   desc:'تقریباً منحصراً بر جنبه‌های منفی متمرکز می‌شوید و به ندرت به جنبه‌های مثبت توجه می‌کنید.',             ex:'گاهی به یاد می‌آزید چه تعداد آدم‌هایی مرا دوست ندارند.' },
-    { id:7,  name:'تعمیم افراطی',                 desc:'صرفاً براساس یک رویداد خاص، یک الگوی کلی منفی را استنباط می‌کنید.',                                  ex:'این اتفاق همیشه برای من پیش می‌آید.' },
-    { id:8,  name:'تفکر دو قطبی',                 desc:'آدم‌ها یا اتفاق‌ها را به صورت همه یا هیچ می‌بینید.',                                                    ex:'همه مرا کنار گذاشته‌اند.' },
-    { id:9,  name:'بایدها',                        desc:'رویدادها را بر مبنای این‌که چطور باید بودند تفسیر می‌کنید، نه بر مبنای آنکه واقعاً چطور هستند.',      ex:'باید خوب عمل کنم، و اگر خوب عمل نکنم یعنی شکست خورده‌ام.' },
-    { id:10, name:'شخصی سازی',                    desc:'به خاطر اتفاقات ناخوشایند منفی، تقصیر زیادی را به صورت غیرمنصفانه به خود نسبت می‌دهید.',              ex:'ازدواجم به بن بست رسید، چون من شکست خوردم.' },
+    { id:1,  name:'ذهن خوانی',                    desc:'فرض می‌گذارید که می‌دانید آدم‌ها چه فکر می‌کنند، بی‌آنکه شواهد کافی در مورد افکارشان داشته باشید.',  ex:'او فکر می‌کند من یک بازنده‌ام.' },
+    { id:2,  name:'پیش گویی',                      desc:'آینده را پیش بینی می‌کنید. پیش بینی می‌کنید که اوضاع بدتر خواهد شد یا خطری در پیش است.',            ex:'در امتحان قبول نخواهم شد.' },
+    { id:3,  name:'فاجعه سازی',                  desc:'بر این باورید که آنچه اتفاق افتاده آنچنان دردناک و غیرقابل تحمل خواهد بود که شما نمی‌توانید آن را تحمل کنید.',  ex:'اگر در امتحان رد شوم، وحشتناک است.' },
+    { id:4,  name:'برچسب زدن',                    desc:'یک ویژگی منفی خیلی کلی را به خود و دیگران نسبت می‌دهید.',                                          ex:'من دوست داشتنی نیستم.' },
+    { id:5,  name:'دست کم گرفتن جنبه‌های مثبت',  desc:'مدعی هستید که دستاوردهای مثبت شما یا دیگران ناچیز و جزئی هستند.',                                     ex:'این وظیفه زن خانه است.' },
+    { id:6,  name:'فیلتر منفی',                    desc:'تقریباً منحصراً بر جنبه‌های منفی متمرکز می‌شوید و به ندرت به جنبه‌های مثبت توجه می‌کنید.',              ex:'گاهی به یاد می‌آزید چه تعداد آدم‌هایی مرا دوست ندارند.' },
+    { id:7,  name:'تعمیم افراطی',                  desc:'صرفاً براساس یک رویداد خاص، یک الگوی کلی منفی را استنباط می‌کنید.',                                  ex:'این اتفاق همیشه برای من پیش می‌آید.' },
+    { id:8,  name:'تفکر دو قطبی',                  desc:'آدم‌ها یا اتفاق‌ها را به صورت همه یا هیچ می‌بینید.',                                                    ex:'همه مرا کنار گذاشته‌اند.' },
+    { id:9,  name:'بایدها',                         desc:'رویدادها را بر مبنای این‌که چطور باید بودند تفسیر می‌کنید، نه بر مبنای آنکه واقعاً چطور هستند.',       ex:'باید خوب عمل کنم، و اگر خوب عمل نکنم یعنی شکست خورده‌ام.' },
+    { id:10, name:'شخصی سازی',                     desc:'به خاطر اتفاقات ناخوشایند منفی، تقصیر زیادی را به صورت غیرمنصفانه به خود نسبت می‌دهید.',               ex:'ازدواجم به بن بست رسید، چون من شکست خوردم.' },
     { id:11, name:'مقصر دانستن',                  desc:'فرد دیگری را منبع اصلی احساسات منفی‌تان می‌دانید.',                                                    ex:'تقصیر اوست که من الان این گونه احساس می‌کنم.' },
     { id:12, name:'مقایسه‌های غیرمنصفانه',        desc:'اتفاق‌ها را براساس استانداردهایی تفسیر می‌کنید که واقع‌بینانه نیستند.',                                 ex:'او در مقایسه با من موفق‌تر است.' },
-    { id:13, name:'همیشه پشیمان بودن',            desc:'تمرکز ذهنی با این‌که از این‌ها عمل کنم بهتر از آن‌ها می‌توانستم عمل کنم.',                            ex:'اگر تلاش کرده بودم می‌توانستم شغل بهتری داشته باشم.' },
-    { id:14, name:'چه می‌شود اگر؟',               desc:'یک سلسله سؤالات «چه می‌شود اگر؟» می‌پرسید.',                                                           ex:'اگر مضطرب شوم چه؟' },
-    { id:15, name:'استدلال هیجانی',               desc:'اجازه می‌دهید که احساساتتان، تفسیرتان از واقعیت را هدایت کنند.',                                        ex:'احساس افسردگی می‌کنم، و این یعنی ازدواجم به بن بست خورده است.' },
+    { id:13, name:'همیشه پشیمان بودن',             desc:'تمرکز ذهنی با این‌که از این‌ها عمل کنم بهتر از آن‌ها می‌توانستم عمل کنم.',                             ex:'اگر تلاش کرده بودم می‌توانستم شغل بهتری داشته باشم.' },
+    { id:14, name:'چه می‌شود اگر؟',               desc:'یک سلسله سؤالات «چه می‌شود اگر؟» می‌پرسید.',                                                          ex:'اگر مضطرب شوم چه؟' },
+    { id:15, name:'استدلال هیجانی',               desc:'اجازه می‌دهید که احساساتتان، تفسیرتان از واقعیت را هدایت کنند.',                                       ex:'احساس افسردگی می‌کنم، و این یعنی ازدواجم به بن بست خورده است.' },
     { id:16, name:'ناتوانی در عدم تأیید شواهد',  desc:'همه مدارک یا شواهد بر علیه افکار منفی‌تان را رد می‌کنید.',                                              ex:'مشکلات عمیق‌تر از این حرف‌ها هستند.' },
-    { id:17, name:'برخورد قضاوتی',               desc:'خودتان، دیگران و اتفاق‌ها را به جای توصیف، به صورت سیاه و سفید ارزیابی می‌کنید.',                       ex:'در دانشگاه خوب درس نخواندم.' },
+    { id:17, name:'برخورد قضاوتی',               desc:'خودتان، دیگران و اتفاق‌ها را به جای توصیف، به صورت سیاه و سفید ارزیابی می‌کنید.',                        ex:'در دانشگاه خوب درس نخواندم.' },
   ],
   en: [
-    { id:1,  name:'Mind Reading',           desc:'You assume you know what people are thinking, without sufficient evidence.',                                   ex:'He thinks I\'m a loser.' },
-    { id:2,  name:'Fortune Telling',        desc:'You predict that things will turn out badly.',                                                                  ex:'I\'m going to fail the exam.' },
-    { id:3,  name:'Catastrophizing',        desc:'You believe that what has happened or will happen will be so awful and unbearable that you won\'t be able to stand it.', ex:'If I fail, it will be terrible.' },
-    { id:4,  name:'Labeling',              desc:'You assign a global negative trait to yourself and others.',                                                      ex:'I\'m unlovable.' },
+    { id:1,  name:'Mind Reading',            desc:'You assume you know what people are thinking, without sufficient evidence.',                                    ex:'He thinks I\'m a loser.' },
+    { id:2,  name:'Fortune Telling',         desc:'You predict that things will turn out badly.',                                                                  ex:'I\'m going to fail the exam.' },
+    { id:3,  name:'Catastrophizing',         desc:'You believe that what has happened or will happen will be so awful and unbearable that you won\'t be able to stand it.', ex:'If I fail, it will be terrible.' },
+    { id:4,  name:'Labeling',                desc:'You assign a global negative trait to yourself and others.',                                                    ex:'I\'m unlovable.' },
     { id:5,  name:'Discounting Positives', desc:'You claim that the positive things you or others do are trivial.',                                                ex:'That\'s what anyone would do.' },
-    { id:6,  name:'Negative Filtering',    desc:'You almost exclusively focus on the negatives and seldom notice the positives.',                                 ex:'Look at all the people who don\'t like me.' },
-    { id:7,  name:'Overgeneralizing',      desc:'You perceive a global pattern of negatives on the basis of a single incident.',                                  ex:'This always happens to me.' },
-    { id:8,  name:'Black & White Thinking',desc:'You view events or people in all-or-nothing terms.',                                                             ex:'Everyone has abandoned me.' },
-    { id:9,  name:'Should Statements',     desc:'You interpret events in terms of how things should be rather than simply focusing on what is.',                  ex:'I should always do well; if I don\'t, it means I\'ve failed.' },
-    { id:10, name:'Personalizing',         desc:'You attribute a disproportionate amount of the blame to yourself for negative events.',                          ex:'My marriage failed because I failed.' },
-    { id:11, name:'Blaming',              desc:'You focus on the other person as the source of your negative feelings.',                                          ex:'It\'s his fault I feel this way.' },
-    { id:12, name:'Unfair Comparisons',   desc:'You interpret events in terms of standards that are unrealistic.',                                               ex:'She\'s more successful than me.' },
-    { id:13, name:'Regret Orientation',   desc:'You focus on the idea that you could have done better in the past.',                                             ex:'If I had tried harder, I could have had a better job.' },
-    { id:14, name:'What If?',             desc:'You keep asking a series of "what if" questions and are never satisfied with any answer.',                        ex:'But what if I get anxious?' },
-    { id:15, name:'Emotional Reasoning',  desc:'You let your feelings guide your interpretation of reality.',                                                    ex:'I feel depressed, so my marriage must be a failure.' },
-    { id:16, name:'Inability to Disconfirm', desc:'You reject any evidence or arguments that might contradict your negative thoughts.',                          ex:'The problems are deeper than that.' },
-    { id:17, name:'Judgmental Focus',     desc:'You evaluate yourself, others, and events in terms of black-and-white judgments rather than simply describing them.', ex:'I didn\'t do well in school.' },
+    { id:6,  name:'Negative Filtering',      desc:'You almost exclusively focus on the negatives and seldom notice the positives.',                                 ex:'Look at all the people who don\'t like me.' },
+    { id:7,  name:'Overgeneralizing',        desc:'You perceive a global pattern of negatives on the basis of a single incident.',                                  ex:'This always happens to me.' },
+    { id:8,  name:'Black & White Thinking',desc:'You view events or people in all-or-nothing terms.',                                                              ex:'Everyone has abandoned me.' },
+    { id:9,  name:'Should Statements',       desc:'You interpret events in terms of how things should be rather than simply focusing on what is.',                  ex:'I should always do well; if I don\'t, it means I\'ve failed.' },
+    { id:10, name:'Personalizing',           desc:'You attribute a disproportionate amount of the blame to yourself for negative events.',                           ex:'My marriage failed because I failed.' },
+    { id:11, name:'Blaming',                 desc:'You focus on the other person as the source of your negative feelings.',                                          ex:'It\'s his fault I feel this way.' },
+    { id:12, name:'Unfair Comparisons',      desc:'You interpret events in terms of standards that are unrealistic.',                                                ex:'She\'s more successful than me.' },
+    { id:13, name:'Regret Orientation',      desc:'You focus on the idea that you could have done better in the past.',                                              ex:'If I had tried harder, I could have had a better job.' },
+    { id:14, name:'What If?',                desc:'You keep asking a series of "what if" questions and are never satisfied with any answer.',                         ex:'But what if I get anxious?' },
+    { id:15, name:'Emotional Reasoning',    desc:'You let your feelings guide your interpretation of reality.',                                                      ex:'I feel depressed, so my marriage must be a failure.' },
+    { id:16, name:'Inability to Disconfirm', desc:'You reject any evidence or arguments that might contradict your negative thoughts.',                           ex:'The problems are deeper than that.' },
+    { id:17, name:'Judgmental Focus',        desc:'You evaluate yourself, others, and events in terms of black-and-white judgments rather than simply describing them.', ex:'I didn\'t do well in school.' },
   ],
   ar: [
-    { id:1,  name:'قراءة الأفكار',          desc:'تفترض أنك تعرف ما يفكر فيه الآخرون دون دليل كافٍ.',                                                           ex:'إنه يعتقد أنني خاسر.' },
-    { id:2,  name:'التنبؤ بالمستقبل',        desc:'تتنبأ بأن الأمور ستسوء.',                                                                                      ex:'سأفشل في الامتحان.' },
-    { id:3,  name:'الكارثية',               desc:'تعتقد أن ما سيحدث سيكون مروعاً لا يمكنك تحمله.',                                                               ex:'إذا فشلت، سيكون الأمر مرعباً.' },
-    { id:4,  name:'التسمية السلبية',         desc:'تنسب صفة سلبية عامة لنفسك أو للآخرين.',                                                                        ex:'أنا غير محبوب.' },
-    { id:5,  name:'تقليل الإيجابيات',       desc:'تدّعي أن الإنجازات الإيجابية لك أو للآخرين ضئيلة.',                                                            ex:'هذا ما يفعله أي شخص.' },
-    { id:6,  name:'الفلترة السلبية',        desc:'تركز تقريباً حصرياً على الجوانب السلبية.',                                                                       ex:'انظر كم من الناس لا يحبونني.' },
-    { id:7,  name:'التعميم المفرط',          desc:'تستنتج نمطاً سلبياً عاماً من حادثة واحدة.',                                                                     ex:'هذا يحدث لي دائماً.' },
-    { id:8,  name:'التفكير الأبيض والأسود',  desc:'ترى الأشخاص أو الأحداث بشكل كل أو لا شيء.',                                                                   ex:'الجميع تخلى عني.' },
-    { id:9,  name:'يجب أن...',              desc:'تفسّر الأحداث بناءً على كيف يجب أن تكون وليس ما هي عليه فعلاً.',                                               ex:'يجب أن أؤدي بشكل جيد، وإلا فأنا فاشل.' },
-    { id:10, name:'التشخيص الذاتي',         desc:'تلوم نفسك بشكل مفرط وغير عادل على الأحداث السلبية.',                                                           ex:'فشل زواجي لأنني فشلت.' },
-    { id:11, name:'إلقاء اللوم على الآخرين',desc:'ترى الآخر مصدراً رئيسياً لمشاعرك السلبية.',                                                                     ex:'إنه المسؤول عن شعوري هكذا.' },
-    { id:12, name:'المقارنات غير العادلة',  desc:'تفسّر الأحداث وفق معايير غير واقعية.',                                                                         ex:'هي أكثر نجاحاً مني.' },
-    { id:13, name:'التوجه نحو الندم',        desc:'تركز على أنك كنت تستطيع فعل أفضل في الماضي.',                                                                   ex:'لو اجتهدت، لحصلت على وظيفة أفضل.' },
-    { id:14, name:'ماذا لو؟',               desc:'تطرح سلسلة من أسئلة "ماذا لو؟" ولا تقتنع بأي إجابة.',                                                          ex:'ولكن ماذا لو أصبت بالقلق؟' },
-    { id:15, name:'الاستدلال العاطفي',       desc:'تدع مشاعرك تحكم تفسيرك للواقع.',                                                                               ex:'أشعر بالاكتئاب، إذن زواجي فاشل.' },
-    { id:16, name:'عدم القدرة على دحض الأدلة',desc:'ترفض أي دليل أو حجة قد تتعارض مع أفكارك السلبية.',                                                          ex:'المشكلات أعمق من ذلك.' },
-    { id:17, name:'التركيز القضائي',         desc:'تقيّم نفسك والآخرين والأحداث بأحكام متطرفة بدلاً من وصفها.',                                                    ex:'لم أدرس جيداً في الجامعة.' },
+    { id:1,  name:'قراءة الأفكار',          desc:'تفترض أنك تعرف ما يفكر فيه الآخرون دون دليل كافٍ.',                                                             ex:'إنه يعتقد أنني خاسر.' },
+    { id:2,  name:'التنبؤ بالمستقبل',        desc:'تتنبأ بأن الأمور ستسوء.',                                                                                         ex:'سأفشل في الامتحان.' },
+    { id:3,  name:'الكارثية',                desc:'تعتقد أن ما سيحدث سيكون مروعاً لا يمكنك تحمله.',                                                              ex:'إذا فشلت، سيكون الأمر مرعباً.' },
+    { id:4,  name:'التسمية السلبية',          desc:'تنسب صفة سلبية عامة لنفسك أو للآخرين.',                                                                          ex:'أنا غير محبوب.' },
+    { id:5,  name:'تقليل الإيجابيات',        desc:'تدّعي أن الإنجازات الإيجابية لك أو للآخرين ضئيلة.',                                                             ex:'هذا ما يفعله أي شخص.' },
+    { id:6,  name:'الفلترة السلبية',         desc:'تركز تقريباً حصرياً على الجوانب السلبية.',                                                                       ex:'انظر كم من الناس لا يحبونني.' },
+    { id:7,  name:'التعميم المفرط',          desc:'تستنتج نمطاً سلبياً عاماً من حادثة واحدة.',                                                                      ex:'هذا يحدث لي دائماً.' },
+    { id:8,  name:'التفكير الأبيض والأسود',  desc:'ترى الأشخاص أو الأحداث بشكل كل أو لا شيء.',                                                                       ex:'الجميع تخلى عني.' },
+    { id:9,  name:'يجب أن...',               desc:'تفسّر الأحداث بناءً على كيف يجب أن تكون وليس ما هي عليه فعلاً.',                                                ex:'يجب أن أؤدي بشكل جيد، وإلا فأنا فاشل.' },
+    { id:10, name:'التشخيص الذاتي',          desc:'تلوم نفسك بشكل مفرط وغير عادل على الأحداث السلبية.',                                                            ex:'فشل زواجي لأنني فشلت.' },
+    { id:11, name:'إلقاء اللوم على الآخرين',desc:'ترى الآخر مصدراً رئيسياً لمشاعرك السلبية.',                                                                      ex:'إنه المسؤول عن شعوري هكذا.' },
+    { id:12, name:'المقارنات غير العادلة',  desc:'تفسّر الأحداث وفق معايير غير واقعية.',                                                                           ex:'هي أكثر نجاحاً مني.' },
+    { id:13, name:'التوجه نحو الندم',        desc:'تركز على أنك كنت تستطيع فعل أفضل في الماضي.',                                                                     ex:'لو اجتهدت، لحصلت على وظيفة أفضل.' },
+    { id:14, name:'ماذا لو؟',                desc:'تطرح سلسلة من أسئلة "ماذا لو؟" ولا تقتنع بأي إجابة.',                                                          ex:'ولكن ماذا لو أصبت بالقلق؟' },
+    { id:15, name:'الاستدلال العاطفي',        desc:'تدع مشاعرك تحكم تفسيرك للواقع.',                                                                                 ex:'أشعر بالاكتئاب، إذن زواجي فاشل.' },
+    { id:16, name:'عدم القدرة على دحض الأدلة',desc:'ترفض أي دليل أو حجة قد تتعارض مع أفكارك السلبية.',                                                           ex:'المشكلات أعمق من ذلك.' },
+    { id:17, name:'التركيز القضائي',          desc:'تقيّم نفسك والآخرين والأحداث بأحكام متطرفة بدلاً من وصفها.',                                                     ex:'لم أدرس جيداً في الجامعة.' },
   ],
 };
 
@@ -719,8 +715,6 @@ const globalCSS = `
   }
 `;
 
-// ─────────────────────────── MICRO COMPONENTS ───────────────────────────
-
 const InitialLoading = ({ lang }: { lang: Lang }) => (
   <div style={{position:'fixed',inset:0,background:'#09090b',zIndex:9999,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
     <div style={{position:'relative',marginBottom:24}}>
@@ -801,8 +795,6 @@ const CustomSlider = ({ value, onChange, label, color='#6366f1', isRTL=true }: a
   );
 };
 
-// ─────────────────────────── LANGUAGE SWITCHER ───────────────────────────
-
 const LanguageSwitcher = ({ lang, setLang, isDark }: { lang: Lang, setLang: (l: Lang) => void, isDark: boolean }) => {
   const [open, setOpen] = useState(false);
   const tx = isDark ? '#f4f4f5' : '#1e293b';
@@ -867,8 +859,6 @@ const LanguageSwitcher = ({ lang, setLang, isDark }: { lang: Lang, setLang: (l: 
   );
 };
 
-// ─────────────────────────── FAB MENU ───────────────────────────
-
 const FABMenu = ({ onAddLog, onAddNote, onAddBelief, onAddQuarantine, lang, isRTL }: any) => {
   const [open, setOpen] = useState(false);
   const t = T[lang];
@@ -909,8 +899,6 @@ const FABMenu = ({ onAddLog, onAddNote, onAddBelief, onAddQuarantine, lang, isRT
     </div>
   );
 };
-
-// ─────────────────────────── COST-BENEFIT MODAL ───────────────────────────
 
 const CostBenefitModal = ({ onClose, isDark, onSave, editData, showToast, lang, isRTL }: any) => {
   const t = T[lang];
@@ -1031,8 +1019,6 @@ const CostBenefitModal = ({ onClose, isDark, onSave, editData, showToast, lang, 
     </div>
   );
 };
-
-// ─────────────────────────── QUARANTINE MODAL ───────────────────────────
 
 const QuarantineModal = ({ onClose, isDark, items, onAdd, onDelete, onResolve, showToast, lang, isRTL }: any) => {
   const t = T[lang];
@@ -1207,8 +1193,6 @@ const QuarantineModal = ({ onClose, isDark, items, onAdd, onDelete, onResolve, s
   );
 };
 
-// ─────────────────────────── BELIEF CARD ───────────────────────────
-
 const BeliefCard = ({ belief, isDark, onEdit, onDelete, lang, isRTL }: any) => {
   const t = T[lang];
   const [expanded, setExpanded] = useState(false);
@@ -1278,8 +1262,6 @@ const BeliefCard = ({ belief, isDark, onEdit, onDelete, lang, isRTL }: any) => {
   );
 };
 
-// ─────────────────────────── COGNITIVE ERRORS MODAL ───────────────────────────
-
 const CognitiveErrorsModal = ({ onClose, isDark, lang, isRTL }: any) => {
   const t = T[lang];
   const errors = COGNITIVE_ERRORS[lang];
@@ -1325,8 +1307,6 @@ const CognitiveErrorsModal = ({ onClose, isDark, lang, isRTL }: any) => {
     </div>
   );
 };
-
-// ─────────────────────────── SESSION NOTES MODAL ───────────────────────────
 
 const SessionNotesModal = ({ notes, onSave, onDelete, onClose, isDark, startAdding, showToast, lang, isRTL }: any) => {
   const t = T[lang];
@@ -1439,8 +1419,6 @@ const SessionNotesModal = ({ notes, onSave, onDelete, onClose, isDark, startAddi
     </div>
   );
 };
-
-// ─────────────────────────── ADD LOG MODAL ───────────────────────────
 
 const AddLogModal = ({ onSave, onClose, isDark, initialData, showToast, lang, isRTL }: any) => {
   const t = T[lang];
@@ -1635,8 +1613,6 @@ const AddLogModal = ({ onSave, onClose, isDark, initialData, showToast, lang, is
   );
 };
 
-// ─────────────────────────── PDF TABLE ───────────────────────────
-
 const PdfTable = ({ logs, sessionNotes, includeNotesExport, lang, isRTL }: any) => {
   const t = T[lang];
   const font = isRTL ? 'Vazirmatn,serif' : 'Inter,serif';
@@ -1696,8 +1672,6 @@ const PdfTable = ({ logs, sessionNotes, includeNotesExport, lang, isRTL }: any) 
   );
 };
 
-// ─────────────────────────── DASHBOARD ───────────────────────────
-
 type ActiveTab = 'logs' | 'beliefs' | 'quarantine';
 
 const DashboardView = ({
@@ -1709,7 +1683,7 @@ const DashboardView = ({
   onEditBelief, onDeleteBelief,
   onOpenQuarantine,
   includeNotesExport, setIncludeNotesExport,
-  lang, isRTL
+  lang, setLang, isRTL
 }: any) => {
   const t = T[lang];
   const [deleteConfirmId, setDeleteConfirmId] = useState<string|null>(null);
@@ -1724,8 +1698,8 @@ const DashboardView = ({
 
   const tabs: {id: ActiveTab, label: string, icon: any, color: string}[] = [
     { id:'logs',      label: t.myLogs,         icon:<Brain size={15}/>,    color:'#6366f1' },
-    { id:'beliefs',   label: t.beliefAnalysis,  icon:<Scale size={15}/>,    color:'#14b8a6' },
-    { id:'quarantine',label: t.quarantine,       icon:<Archive size={15}/>,  color:'#f97316' },
+    { id:'beliefs',   label: t.beliefAnalysis, icon:<Scale size={15}/>,    color:'#14b8a6' },
+    { id:'quarantine',label: t.quarantine,     icon:<Archive size={15}/>,  color:'#f97316' },
   ];
 
   return (
@@ -1742,7 +1716,11 @@ const DashboardView = ({
         display:'flex',alignItems:'center',justifyContent:'space-between',
         boxShadow:isDark?'0 4px 24px rgba(99,102,241,0.1)':'0 4px 24px rgba(0,0,0,0.06)'
       }}>
+        
+        {/* ACTION BUTTONS & LANGUAGE SWITCHER */}
         <div style={{display:'flex',gap:6,alignItems:'center'}}>
+          <LanguageSwitcher lang={lang} setLang={setLang} isDark={isDark} />
+
           <label style={{display:'flex',alignItems:'center',gap:6,color:tx,fontSize:11,fontWeight:700,cursor:'pointer',
             background:isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)',padding:'6px 10px',borderRadius:8,border:`1px solid ${bd}`}}>
             <input type="checkbox" checked={includeNotesExport} onChange={(e: any)=>setIncludeNotesExport(e.target.checked)} style={{cursor:'pointer'}}/>
@@ -1767,7 +1745,6 @@ const DashboardView = ({
       </div>
 
       <div style={{padding:'20px',maxWidth:900,margin:'0 auto'}}>
-        {/* Stats — 2 items only (removed shame average) */}
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,marginBottom:20}}>
           <div className="stat-card" style={{
             background: isDark
@@ -1799,7 +1776,6 @@ const DashboardView = ({
           </div>
         </div>
 
-        {/* Tabs */}
         <div style={{display:'flex',gap:6,marginBottom:22,background:card,padding:6,borderRadius:18,border:`1px solid ${bd}`,boxShadow:isDark?'0 4px 16px rgba(0,0,0,0.2)':'0 4px 16px rgba(0,0,0,0.04)'}}>
           {tabs.map(tab=>(
             <button key={tab.id} onClick={()=>setActiveTab(tab.id)} className={`tab-btn${activeTab===tab.id?' tab-active':''}`} style={{
@@ -1814,7 +1790,6 @@ const DashboardView = ({
           ))}
         </div>
 
-        {/* ── Logs Tab ── */}
         {activeTab === 'logs' && (
           <>
             <h2 style={{color:tx,fontWeight:900,fontSize:16,marginBottom:14}}>{t.myLogs}</h2>
@@ -1895,7 +1870,6 @@ const DashboardView = ({
           </>
         )}
 
-        {/* ── Beliefs Tab ── */}
         {activeTab === 'beliefs' && (
           <>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
@@ -1918,7 +1892,6 @@ const DashboardView = ({
           </>
         )}
 
-        {/* ── Quarantine Tab ── */}
         {activeTab === 'quarantine' && (
           <>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
@@ -1964,7 +1937,6 @@ const DashboardView = ({
         )}
       </div>
 
-      {/* Bottom Nav */}
       <div style={{
         position:'fixed',bottom:0,width:'100%',
         background:isDark?'rgba(9,9,11,0.96)':'rgba(255,255,255,0.96)',
@@ -1993,8 +1965,6 @@ const DashboardView = ({
     </div>
   );
 };
-
-// ─────────────────────────── MAIN APP ───────────────────────────
 
 export default function App() {
   const [appLoading, setAppLoading] = useState(true);
@@ -2142,17 +2112,6 @@ export default function App() {
   return (
     <div dir={isRTL?'rtl':'ltr'} style={{fontFamily:font,minHeight:'100vh',background:isDark?'#09090b':'#f8fafc',color:isDark?'#f4f4f5':'#1e293b',position:'relative'}}>
       <style dangerouslySetInnerHTML={{__html: globalCSS}}/>
-
-      {/* Language Switcher — fixed top corner */}
-      <div style={{
-        position:'fixed',
-        top:14,
-        right: isRTL ? 14 : 'auto',
-        left: isRTL ? 'auto' : 14,
-        zIndex:200
-      }}>
-        <LanguageSwitcher lang={lang} setLang={setLang} isDark={isDark}/>
-      </div>
 
       <PdfTable logs={sortedLogs} sessionNotes={sortedNotes} includeNotesExport={includeNotesExport} lang={lang} isRTL={isRTL}/>
       <SaveAnimation show={showSave}/>
